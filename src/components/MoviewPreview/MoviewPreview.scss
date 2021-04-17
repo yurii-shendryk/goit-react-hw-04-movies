@@ -1,0 +1,42 @@
+@import '../../styles/variables';
+
+.MoviewPreview {
+  display: grid;
+  grid-auto-flow: row;
+  padding: 2px;
+  background-color: #fff;
+  border: 2px solid #e4e4e4;
+  border-radius: 8px;
+  transition: transform 300ms linear;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+    box-shadow: 3px 3px 16px 0px #8f8f8f;
+  }
+}
+
+.MoviewPreview__link {
+  display: grid;
+  grid-template-rows: auto, minmax(20px, 1fr);
+  row-gap: 10px;
+}
+
+.MoviewPreview__image {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+}
+
+.MoviewPreview__title {
+  justify-self: center;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
+.MoviewPreview__votes {
+  margin-left: 10px;
+  padding: 0 5px;
+  color: #fff;
+  background-color: $pink;
+  border-radius: 5px;
+}

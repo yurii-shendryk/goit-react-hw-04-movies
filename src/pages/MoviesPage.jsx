@@ -1,58 +1,43 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import API_KEY from '../services/apiKey';
-
+import { useLocation, useHistory } from 'react-router-dom';
+import queryString from 'query-string';
+import SearchForm from '../components/SearchForm';
+import MovieList from '../components/MovieList';
+import { fetchMoviesByQuery } from '../services/moviesApi';
 const MoviesPage = () => {
-  const [query, setQuery] = useState('');
-  const [seachQuery, setSearchQuery] = useState('');
-  const [films, setFilms] = useState([]);
+  const { push } = useHistory();
+  const location = useLocation();
+  const queryParams = queryString.parse(location.search);
+  const [movies, setMovies] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(queryParams?.query || '');
+
   useEffect(() => {
-    if (seachQuery) {
-      fetchFilms();
+    if (searchQuery) {
+      push({
+        ...location,
+        search: `?query=${searchQuery}`,
+      });
+      getMoviesByQuery();
     }
-  }, [seachQuery]);
+    // eslint-disable-next-line
+  }, [searchQuery]);
 
-  const fetchFilms = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`,
+  const getMoviesByQuery = () =>
+    fetchMoviesByQuery(searchQuery).then(moviesByQuery =>
+      setMovies(prev => [...prev, ...moviesByQuery]),
     );
-    const { results } = await data;
-    setFilms(prev => [...prev, ...results]);
-  };
 
-  const handleChange = e => {
-    e.preventDefault();
-    setQuery(e.currentTarget.value);
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
+  const onChangeQuery = query => {
     setSearchQuery(query);
-    if (query !== seachQuery) {
-      setFilms([]);
+    if (query !== searchQuery) {
+      setMovies([]);
     }
   };
+
   return (
     <>
-      <form className="SearchForm" onSubmit={handleSubmit}>
-        <input
-          className="SearchForm-input"
-          type="text"
-          name="query"
-          value={query}
-          autoComplete="off"
-          autoFocus
-          onChange={handleChange}
-        />
-        <button type="submit" className="SearchForm-button">
-          <span className="SearchForm-button-label">Search</span>
-        </button>
-      </form>
-      <ul>
-        {films.map(film => (
-          <li key={film.id}>{film.title || film.name}</li>
-        ))}
-      </ul>
+      <SearchForm onSubmit={onChangeQuery} />
+      <MovieList movies={movies} query={searchQuery} />
     </>
   );
 };

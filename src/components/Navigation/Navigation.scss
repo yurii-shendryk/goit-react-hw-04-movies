@@ -1,0 +1,32 @@
+@import '../../styles/variables';
+
+.Navigation {
+  margin: 30px 0;
+}
+
+.Navigation-list {
+  display: flex;
+  align-items: center;
+}
+
+.Navigation-list__item {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.Navigation-list__item:not(:last-child) {
+  margin-right: 10px;
+}
+
+.Navigation-link {
+  padding: 5px;
+  background-color: $blue;
+  border: 1px solid $blue;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.Navigation-link--active {
+  color: $accent-blue;
+  border-radius: 4px;
+}

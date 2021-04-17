@@ -1,0 +1,44 @@
+@import '../../styles/variables';
+.MovieDetailsPage {
+  padding-top: 30px;
+}
+.MovieDetailsPage__button {
+  padding: 5px;
+  margin-bottom: 20px;
+  background-color: $blue;
+  border: 1px solid $blue;
+  color: #fff;
+  border-radius: 4px;
+
+  &:hover,
+  &:focus {
+    background-color: $accent-blue;
+    border: 1px solid $accent-blue;
+  }
+}
+
+.MovieDetailsPage__card {
+  display: grid;
+  grid-template-columns: 264px 1fr;
+  gap: 20px;
+  padding-bottom: 20px;
+  align-items: center;
+}
+
+.MovieDetailsPage__poster {
+  max-width: 100%;
+  height: auto;
+}
+.MovieDetailsPage__information {
+}
+
+.MovieDetailsPage__title {
+  margin-bottom: 20px;
+}
+
+.MovieDetailsPage__text {
+  margin-bottom: 40px;
+}
+.MovieDetailsPage__additional-information {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}

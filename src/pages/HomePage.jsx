@@ -1,30 +1,24 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import API_KEY from '../services/apiKey';
+import MovieList from '../components/MovieList';
+import Container from '../components/Container';
+import { fetchTrendingMovies } from '../services/moviesApi';
 const HomePage = () => {
-  const [trendingFilms, setTrendingFilms] = useState([]);
+  const [movies, setmovies] = useState([]);
+
   useEffect(() => {
-    getTrendingFilms();
+    getTrendingMovies();
   }, []);
 
-  const getTrendingFilms = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`,
-    );
-    const { results } = await data;
-    setTrendingFilms(results);
-    console.log(results);
-  };
+  const getTrendingMovies = () =>
+    fetchTrendingMovies()
+      .then(trendingMovies => setmovies(trendingMovies))
+      .catch(error => console.log(error));
 
   return (
-    <>
+    <Container>
       <h1>Trending today</h1>
-      <ul>
-        {trendingFilms.map(film => (
-          <li key={film.id}>{film.title || film.name}</li>
-        ))}
-      </ul>
-    </>
+      <MovieList movies={movies} />
+    </Container>
   );
 };
 
