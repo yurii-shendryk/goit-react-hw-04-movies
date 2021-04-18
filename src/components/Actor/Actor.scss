@@ -1,0 +1,42 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+.Actor-card {
+  display: grid;
+  padding: 10px;
+  grid-template-rows: 1fr auto auto;
+  grid-row-gap: 10px;
+  background-color: $white;
+  border: 2px solid $orange;
+  border-radius: 8px;
+  transition: transform 300ms linear;
+  grid-auto-flow: row;
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 3px 3px 16px 0px #8f8f8f;
+  }
+}
+.Actor-card span {
+  color: $dark-green;
+}
+
+.Actor-image {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+}
+
+.Actor-name,
+.Actor-character {
+  font-size: 18px;
+  font-weight: 600;
+  color: $accent-blue;
+  text-align: center;
+}
+
+.Actor-name {
+  color: $blue;
+  text-transform: uppercase;
+}
+
+.Actor-title {
+  color: $dark-green;
+}

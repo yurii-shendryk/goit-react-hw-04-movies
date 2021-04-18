@@ -27,6 +27,7 @@ const SearchForm = ({ onSubmit }) => {
         autoComplete="off"
         autoFocus
         onChange={handleChange}
+        placeholder="Search movies"
       />
 
       <SubmitIconButton aria-label="close" className="SubmitIconButton">

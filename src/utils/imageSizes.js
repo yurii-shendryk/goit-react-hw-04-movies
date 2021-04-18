@@ -1,9 +1,6 @@
 function getImageSize(obj) {
   let imageSize = '';
-  if (
-    document.documentElement.clientWidth >= 320 &&
-    document.documentElement.clientWidth < 768
-  ) {
+  if (document.documentElement.clientWidth < 768) {
     imageSize = obj.mobile;
     return imageSize;
   }

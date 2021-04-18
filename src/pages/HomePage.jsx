@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import MovieList from '../components/MovieList';
 import Container from '../components/Container';
+import Error from '../components/Error';
 import { fetchTrendingMovies } from '../services/moviesApi';
 const HomePage = () => {
   const [movies, setmovies] = useState([]);
-
+  const [error, setError] = useState(null);
   useEffect(() => {
     getTrendingMovies();
   }, []);
@@ -12,12 +13,18 @@ const HomePage = () => {
   const getTrendingMovies = () =>
     fetchTrendingMovies()
       .then(trendingMovies => setmovies(trendingMovies))
-      .catch(error => console.log(error));
+      .catch(error => setError(error));
 
   return (
     <Container>
-      <h1>Trending today</h1>
-      <MovieList movies={movies} />
+      {error ? (
+        <Error />
+      ) : (
+        <>
+          <h1 style={{ textAlign: 'center' }}>Trending today</h1>
+          <MovieList movies={movies} />
+        </>
+      )}
     </Container>
   );
 };

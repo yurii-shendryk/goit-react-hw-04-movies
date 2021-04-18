@@ -1,44 +1,84 @@
 @import '../../styles/variables';
+@import '../../styles/mixins';
 .MovieDetailsPage {
   padding-top: 30px;
 }
 .MovieDetailsPage__button {
   padding: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 18px;
   background-color: $blue;
   border: 1px solid $blue;
-  color: #fff;
+  color: $white;
   border-radius: 4px;
+  cursor: pointer;
 
   &:hover,
   &:focus {
-    background-color: $accent-blue;
-    border: 1px solid $accent-blue;
+    background-color: $orange;
+    border: 1px solid $orange;
   }
 }
 
 .MovieDetailsPage__card {
   display: grid;
-  grid-template-columns: 264px 1fr;
-  gap: 20px;
-  padding-bottom: 20px;
-  align-items: center;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(auto-fit, min-max(264px, 1fr));
+  @include for-size(tablet) {
+    grid-template-columns: 264px 1fr;
+
+    gap: 20px;
+    padding-bottom: 20px;
+  }
 }
 
 .MovieDetailsPage__poster {
   max-width: 100%;
   height: auto;
-}
-.MovieDetailsPage__information {
+  justify-self: center;
 }
 
 .MovieDetailsPage__title {
   margin-bottom: 20px;
+  color: $dark-green;
 }
 
 .MovieDetailsPage__text {
   margin-bottom: 40px;
 }
-.MovieDetailsPage__additional-information {
+.Additional-information {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding-top: 30px;
+}
+
+.Additional__information-list {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.Additional-information__title {
+  margin-bottom: 20px;
+}
+
+.Additional__information-item {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.Additional__information-item:not(:last-child) {
+  margin-right: 10px;
+}
+
+.Additional__information-link {
+  padding: 5px;
+  background-color: $blue;
+  border: 1px solid $blue;
+  color: $white;
+  border-radius: 4px;
+}
+
+.Additional__information-link--active {
+  background-color: $accent-blue;
+  border: 1px solid $accent-blue;
 }

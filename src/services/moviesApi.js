@@ -42,7 +42,6 @@ const fetchMovieDetails = async movieId => {
       release_date,
       title,
       vote_average,
-      vote_count,
       credits,
       reviews,
     } = await data;
@@ -55,7 +54,6 @@ const fetchMovieDetails = async movieId => {
       releaseDate: release_date,
       title,
       voteAverage: vote_average,
-      voteCount: vote_count,
       cast: credits.cast,
       reviews: reviews.results,
     };

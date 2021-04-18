@@ -20,7 +20,6 @@ const Navigation = () => {
           </li>
           <li className="Navigation-list__item">
             <NavLink
-              exact
               to={routes.movies}
               className="Navigation-link"
               activeClassName="Navigation-link--active"

@@ -1,0 +1,13 @@
+@import '../../styles/variables';
+.Reviews__item {
+  padding: 20px;
+  border: 1px solid $orange;
+}
+
+.Reviews__item:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.Reviews__content {
+  margin-top: 10px;
+}

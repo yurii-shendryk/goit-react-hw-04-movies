@@ -29,7 +29,6 @@ const MoviewPreview = ({ query, imgUrl, id, title, name }) => {
           }
           alt={name}
         />
-
         <h5 className="MoviewPreview__title">{title || name}</h5>
       </NavLink>
     </li>

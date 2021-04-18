@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Container from '../Container';
 import Actor from '../Actor';
+import './Cast.scss';
 const Cast = ({ actors }) => {
   console.log(actors);
   return (
-    <ul>
-      {actors.map(({ profile_path, id, name, character }) => (
-        <Actor
-          key={id}
-          imgUrl={profile_path}
-          name={name}
-          character={character}
-        />
-      ))}
-    </ul>
+    <Container>
+      <ul className="Cast-list">
+        {actors.map(({ profile_path, id, name, character }) => (
+          <Actor
+            key={id}
+            imgUrl={profile_path}
+            name={name}
+            character={character}
+          />
+        ))}
+      </ul>
+    </Container>
   );
 };
 

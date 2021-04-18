@@ -3,6 +3,8 @@ import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 import SearchForm from '../components/SearchForm';
 import MovieList from '../components/MovieList';
+import Error from '../components/Error';
+import Container from '../components/Container';
 import { fetchMoviesByQuery } from '../services/moviesApi';
 const MoviesPage = () => {
   const { push } = useHistory();
@@ -10,6 +12,7 @@ const MoviesPage = () => {
   const queryParams = queryString.parse(location.search);
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState(queryParams?.query || '');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (searchQuery) {
@@ -23,9 +26,9 @@ const MoviesPage = () => {
   }, [searchQuery]);
 
   const getMoviesByQuery = () =>
-    fetchMoviesByQuery(searchQuery).then(moviesByQuery =>
-      setMovies(prev => [...prev, ...moviesByQuery]),
-    );
+    fetchMoviesByQuery(searchQuery)
+      .then(moviesByQuery => setMovies(prev => [...prev, ...moviesByQuery]))
+      .catch(error => setError(error));
 
   const onChangeQuery = query => {
     setSearchQuery(query);
@@ -36,8 +39,14 @@ const MoviesPage = () => {
 
   return (
     <>
-      <SearchForm onSubmit={onChangeQuery} />
-      <MovieList movies={movies} query={searchQuery} />
+      {error ? (
+        <Error />
+      ) : (
+        <Container>
+          <SearchForm onSubmit={onChangeQuery} />
+          <MovieList movies={movies} query={searchQuery} />
+        </Container>
+      )}
     </>
   );
 };

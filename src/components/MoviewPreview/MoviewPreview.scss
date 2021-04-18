@@ -4,7 +4,7 @@
   display: grid;
   grid-auto-flow: row;
   padding: 2px;
-  background-color: #fff;
+  background-color: $blue;
   border: 2px solid #e4e4e4;
   border-radius: 8px;
   transition: transform 300ms linear;
@@ -16,27 +16,22 @@
   }
 }
 
-.MoviewPreview__link {
-  display: grid;
-  grid-template-rows: auto, minmax(20px, 1fr);
-  row-gap: 10px;
-}
-
 .MoviewPreview__image {
   width: 100%;
   border-radius: 5px 5px 0 0;
 }
 
 .MoviewPreview__title {
-  justify-self: center;
+  text-align: center;
   text-transform: uppercase;
+  color: $white;
   font-size: 20px;
 }
 
 .MoviewPreview__votes {
   margin-left: 10px;
   padding: 0 5px;
-  color: #fff;
-  background-color: $pink;
+  color: $white;
+  background-color: $orange;
   border-radius: 5px;
 }

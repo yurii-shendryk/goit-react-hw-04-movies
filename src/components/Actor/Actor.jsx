@@ -6,7 +6,7 @@ import defaultImage from '../../Images/default-avatar.png';
 import './Actor.scss';
 const Actor = ({ imgUrl, name, character }) => {
   return (
-    <li>
+    <li className="Actor-card">
       <img
         src={
           imgUrl
@@ -14,9 +14,12 @@ const Actor = ({ imgUrl, name, character }) => {
             : `${defaultImage}`
         }
         alt={name}
+        className="Actor-image"
       />
-      <p>name: {name}</p>
-      <p>character: {character}</p>
+      <p className="Actor-name">{name}</p>
+      <p className="Actor-character">
+        <span>character:</span> {character}
+      </p>
     </li>
   );
 };
