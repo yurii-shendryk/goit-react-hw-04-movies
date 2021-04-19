@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import routes from '../../routes';
-import Error from '../../components/Error';
-
 import {
   Switch,
   Route,
@@ -11,11 +9,18 @@ import {
   useLocation,
 } from 'react-router-dom';
 import Container from '../../components/Container';
-import Cast from '../../components/Cast';
-import Reviews from '../../components/Reviews';
-import { fetchMovieDetails } from '../../services/moviesApi';
+import Error from '../../components/Error';
+import Loader from '../../components/Loader';
 
+import { fetchMovieDetails } from '../../services/moviesApi';
 import './MovieDetailsPage.scss';
+
+const Reviews = lazy(() =>
+  import('../../components/Reviews' /* webpackChunkName: "rewiews" */),
+);
+const Cast = lazy(() =>
+  import('../../components/Cast' /* webpackChunkName: "cast" */),
+);
 const MovieDetailsPage = () => {
   const { url, path, params } = useRouteMatch();
   const { push } = useHistory();
@@ -130,24 +135,27 @@ const MovieDetailsPage = () => {
               </ul>
             </Container>
           </div>
+          <Suspense fallback={<Loader />}>
+            <Switch>
+              <Route path={`${path}/reviews`}>
+                {movieDetails?.reviews?.length > 0 ? (
+                  <Reviews reviews={movieDetails.reviews} />
+                ) : (
+                  <Container>
+                    <p style={{ paddingBottom: '30px' }}>
+                      We don't have any reviews for this movie
+                    </p>
+                  </Container>
+                )}
+              </Route>
 
-          <Switch>
-            <Route path={`${path}/reviews`}>
-              {movieDetails?.reviews?.length > 0 ? (
-                <Reviews reviews={movieDetails.reviews} />
-              ) : (
-                <Container>
-                  <p>We don't have any reviews for this movie</p>
-                </Container>
-              )}
-            </Route>
-
-            <Route path={`${path}/cast`}>
-              {movieDetails?.cast?.length > 0 && (
-                <Cast actors={movieDetails.cast} />
-              )}
-            </Route>
-          </Switch>
+              <Route path={`${path}/cast`}>
+                {movieDetails?.cast?.length > 0 && (
+                  <Cast actors={movieDetails.cast} />
+                )}
+              </Route>
+            </Switch>
+          </Suspense>
         </main>
       )}
     </>

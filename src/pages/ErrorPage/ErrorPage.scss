@@ -1,16 +1,22 @@
+@import '../../styles/mixins';
 .ErrorPage {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
 }
 .ErrorPage-title {
-  font-size: 150px;
+  font-size: 80px;
+  @include for-size(tablet) {
+    font-size: 150px;
+  }
 }
 
 .ErrorPage-text {
-  font-size: 50px;
+  font-size: 20px;
   text-transform: uppercase;
+  @include for-size(tablet) {
+    font-size: 50px;
+  }
 }
