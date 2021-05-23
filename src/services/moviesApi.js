@@ -10,9 +10,14 @@ axios.defaults.params = {
   language: 'en-US',
 };
 
-const fetchTrendingMovies = async () => {
+const fetchTrendingMovies = async (page = 1) => {
   try {
-    const { data } = await axios.get(`/trending/all/day?`);
+    const { data } = await axios.get(`/trending/all/day`, {
+      params: {
+        page,
+        include_adult: false,
+      },
+    });
     const { results } = await data;
     return results;
   } catch (error) {

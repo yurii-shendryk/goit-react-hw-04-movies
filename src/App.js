@@ -28,10 +28,18 @@ const App = () => {
       <AppBar />
       <Suspense fallback={<Loader />}>
         <Switch>
-          <Route exact path={routes.home} component={HomePage} />
-          <Route path={routes.movieDetails} component={MovieDetailsPage} />
-          <Route path={routes.movies} component={MoviesPage} />
-          <Route component={ErrorPage} />
+          <Route exact path={routes.home}>
+            <HomePage />
+          </Route>
+          <Route path={routes.movieDetails}>
+            <MovieDetailsPage />
+          </Route>
+          <Route path={routes.movies}>
+            <MoviesPage />
+          </Route>
+          <Route>
+            <ErrorPage />
+          </Route>
         </Switch>
       </Suspense>
     </>
