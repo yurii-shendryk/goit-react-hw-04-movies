@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
+import axios from 'axios';
 import routes from '../../routes';
 import {
   Switch,
@@ -14,6 +15,8 @@ import Loader from '../../components/Loader';
 
 import { fetchMovieDetails } from '../../services/moviesApi';
 import './MovieDetailsPage.scss';
+
+let source;
 
 const Reviews = lazy(() =>
   import('../../components/Reviews' /* webpackChunkName: "rewiews" */),
@@ -40,15 +43,19 @@ const MovieDetailsPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const getMovieDetails = () => {
+      source = axios.CancelToken.source();
+      fetchMovieDetails(params.movieId, source)
+        .then(movieInformation => setMovieDetails(movieInformation))
+        .catch(error => setError(error));
+    };
     getMovieDetails();
-    // eslint-disable-next-line
-  }, []);
-
-  const getMovieDetails = () => {
-    fetchMovieDetails(params.movieId)
-      .then(movieInformation => setMovieDetails(movieInformation))
-      .catch(error => setError(error));
-  };
+    return () => {
+      if (source) {
+        source.cancel('Please, reload previous page');
+      }
+    };
+  }, [params.movieId]);
 
   const handleGoBack = () => {
     push(location?.state?.from || routes.home);

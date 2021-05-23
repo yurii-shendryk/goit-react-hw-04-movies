@@ -10,22 +10,27 @@ axios.defaults.params = {
   language: 'en-US',
 };
 
-const fetchTrendingMovies = async (page = 1) => {
+const fetchTrendingMovies = async (page = 1, source) => {
   try {
     const { data } = await axios.get(`/trending/all/day`, {
       params: {
         page,
         include_adult: false,
       },
+      cancelToken: source.token,
     });
     const { results } = await data;
     return results;
   } catch (error) {
-    throw error;
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error;
+    }
   }
 };
 
-const fetchMoviesByQuery = async (query, page = 1) => {
+const fetchMoviesByQuery = async (query, page = 1, source) => {
   try {
     const { data } = await axios.get(`/search/movie`, {
       params: {
@@ -33,18 +38,24 @@ const fetchMoviesByQuery = async (query, page = 1) => {
         page,
         include_adult: false,
       },
+      cancelToken: source.token,
     });
     const { results } = await data;
     return results;
   } catch (error) {
-    throw error;
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error;
+    }
   }
 };
 
-const fetchMovieDetails = async movieId => {
+const fetchMovieDetails = async (movieId, source) => {
   try {
     const { data } = await axios.get(`/movie/${movieId}`, {
       params: { append_to_response: 'credits,reviews' },
+      cancelToken: source.token,
     });
 
     const {
@@ -73,7 +84,11 @@ const fetchMovieDetails = async movieId => {
     };
     return results;
   } catch (error) {
-    throw error;
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error;
+    }
   }
 };
 

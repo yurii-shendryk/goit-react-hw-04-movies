@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
+import axios from 'axios';
 import SearchForm from '../components/SearchForm';
 import MovieList from '../components/MovieList';
 import Error from '../components/Error';
 import Button from '../components/Button';
 import Container from '../components/Container';
 import { fetchMoviesByQuery } from '../services/moviesApi';
+
+let source;
+
 const MoviesPage = () => {
   const { push } = useHistory();
   const location = useLocation();
@@ -26,19 +30,22 @@ const MoviesPage = () => {
       search: `?query=${searchQuery}`,
     });
     const getMoviesByQuery = () => {
+      source = axios.CancelToken.source();
       setIsLoading(true);
-      fetchMoviesByQuery(searchQuery, currentPage)
+      fetchMoviesByQuery(searchQuery, currentPage, source)
         .then(moviesByQuery => {
           setMovies(prev => [...prev, ...moviesByQuery]);
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: 'smooth',
-          });
         })
         .catch(error => setError(error))
         .finally(() => setIsLoading(false));
     };
     getMoviesByQuery();
+    return () => {
+      if (source) {
+        source.cancel('Please, reload previous page');
+      }
+    };
+    //eslint-disable-next-line
   }, [searchQuery, currentPage]);
 
   const updatePage = () => {

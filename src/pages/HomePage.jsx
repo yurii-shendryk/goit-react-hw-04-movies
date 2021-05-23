@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import MovieList from '../components/MovieList';
 import Container from '../components/Container';
 import Button from '../components/Button';
 import Error from '../components/Error';
 import { fetchTrendingMovies } from '../services/moviesApi';
+
+let source;
+
 const HomePage = () => {
   const [movies, setmovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,19 +15,22 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   useEffect(() => {
     const getTrendingMovies = () => {
+      source = axios.CancelToken.source();
       setIsLoading(true);
-      fetchTrendingMovies(currentPage)
+
+      fetchTrendingMovies(currentPage, source)
         .then(trendingMovies => {
           setmovies(prevMovies => [...prevMovies, ...trendingMovies]);
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: 'smooth',
-          });
         })
         .catch(error => setError(error))
         .finally(() => setIsLoading(false));
     };
     getTrendingMovies();
+    return () => {
+      if (source) {
+        source.cancel('Please, reload previous page');
+      }
+    };
   }, [currentPage]);
 
   const updatePage = () => {

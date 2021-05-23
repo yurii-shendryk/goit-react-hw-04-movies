@@ -3,7 +3,6 @@ import MoviewPreview from '../MoviewPreview';
 
 import './MovieList.scss';
 const MovieList = ({ movies, query }) => {
-  console.log(movies);
   return (
     <ul className="MovieList">
       {movies.map(({ id, poster_path, name, title }) => (
